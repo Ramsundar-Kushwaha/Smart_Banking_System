@@ -2,14 +2,14 @@
 #define CURRENT_ACCOUNT_H
 #include "Account.h"
 
-class currentAccount:public Account{ // CHILD CLASS OF ACCOUNT PARENT CLASS
+class CurrentAccount:public Account{ // CHILD CLASS OF ACCOUNT PARENT CLASS
     private:
         double overdraftLimit;
 
     public:
-        currentAccount(int accNo, std::string name, double balance, int pin);
+        CurrentAccount(int accNo, std::string name, double balance, int pin, int overdraft = 5000):Account(accNo, name, balance, pin), overdraftLimit(overdraft){}
         bool withdraw(double amount) override;
-        void calculateInterest() override;
+        void applyInterest() override;
         void display() const override;
 };
 

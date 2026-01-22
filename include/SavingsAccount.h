@@ -2,13 +2,13 @@
 #define SAVING_ACCOUNT_H
 #include "Account.h"
 
-class SavingAccount:public Account{ // CHILD CLASS OF ACCOUNT PARENT CLASS
+class SavingsAccount:public Account{ // CHILD CLASS OF ACCOUNT PARENT CLASS
     private:
         double interestRate;
     public:
-        SavingAccount(int accNo, std::string name, double balance, int pin);
+        SavingsAccount(int accNo, std::string name, double balance, int pin, double rate = 0.05):Account(accNo, name, balance, pin), interestRate(rate){}
         bool withdraw(double amount) override;
-        void calculateInterest() override;
+        void applyInterest() override;
         void display() const override;
 };
 

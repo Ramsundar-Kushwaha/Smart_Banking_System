@@ -11,7 +11,14 @@ class Account{ // PARENT CLASS, CHILDS: = CurrentAccount, SavingAccount
         bool isActive;
 
     public:
-        Account(int accNo, std::string name, double balance, int pin); // constructor
+        // constructor for initializing object
+        Account(int accNo, std::string name, double balance, int pin){
+            accountNumber = accNo;
+            holderName = name;
+            this->balance = balance;
+            this->pin = pin;
+            isActive = true;
+        }
 
         // for getting account number only, donot modify any value
         int getAccountNumber()const{
@@ -29,17 +36,32 @@ class Account{ // PARENT CLASS, CHILDS: = CurrentAccount, SavingAccount
         }
 
         // for authentication pin only, donot modify any value
-        bool authenticate(int pin)const{
-            return (pin == pin);
+        bool authenticate(int inputPin)const{
+            return isActive && (pin == inputPin);
         }
 
-        void deposit(double amount);
+        // for balance depositing
+        void deposit(double amount){
+            if (isActive && amount > 0){
+                balance += amount;
+            }
+        }
+
         virtual bool withdraw(double amount) = 0; // pure virtual funciton
-        virtual void calculateInterest() = 0; // pure virtual function
-        void activate();
-        void deactivate();
+        virtual void applyInterest() = 0; // pure virtual function
+
+        // for activating account
+        void activate(){
+            isActive = true;
+        }
+
+        // for deactivating account
+        void deactivate(){
+            isActive = false;
+        }
+
         virtual void display()const = 0; // pure virtual function, for displaying account details, donot modify any value
-        ~Account(); // destructor
+        virtual ~Account(); // destructor
 };
 
 #endif
