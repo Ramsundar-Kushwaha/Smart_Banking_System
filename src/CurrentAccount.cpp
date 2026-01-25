@@ -1,6 +1,10 @@
 #include <iostream>
 #include "CurrentAccount.h"
 
+CurrentAccount::~CurrentAccount(){
+    std::cout << "child class memory freed succefully\n";
+}
+
 
 // withdraw method for current account
 bool CurrentAccount::withdraw(double amount){

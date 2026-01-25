@@ -6,6 +6,7 @@ class SavingsAccount:public Account{ // CHILD CLASS OF ACCOUNT PARENT CLASS
     private:
         double interestRate;
     public:
+        ~SavingsAccount();
         SavingsAccount(int accNo, std::string name, double balance, int pin, double rate = 0.05):Account(accNo, name, balance, pin), interestRate(rate){}
         bool withdraw(double amount) override;
         void applyInterest() override;

@@ -1,6 +1,10 @@
 #include "SavingsAccount.h"
 #include <iostream>
 
+SavingsAccount::~SavingsAccount(){
+    std::cout << "child class Memory Freed Successfully\n";
+}
+
 bool SavingsAccount::withdraw(double amount){
     if (! isActive){
         std::cout << "The Account is Deactivated\n";
