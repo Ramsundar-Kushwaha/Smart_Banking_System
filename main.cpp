@@ -1,39 +1,21 @@
 #include <iostream>
 #include <cstdlib> // for system("cls")
-#include "Account.h"
-#include "Bank.h"
+// #include "Account.h"
+#include <ui.h>
 
 int main(){
     // Bank B;
     // B.createSavingAccount();
     // B.showAllAccounts();
-
-    std::cout << "+--------------------------+---------------------------+\n";
-    std::cout << "| 1. Create Saving Account | 2. Create Current Account |\n";
-    std::cout << "+--------------------------+---------------------------+\n";
-
+    Ui U;
     int choice;
-    std::cout << "> ";
-    std::cin >> choice;
-    if(std::cin.fail()){
-        std::cout << "Invalid Input | Please Try Again\n";
+    choice = U.accountCreation();
+    if(choice == 1){
+        choice = U.savingAccountServices();
+    }else{
+        choice = U.currentAccountServices();
     }
 
-    Bank B;
-    switch (choice)
-    {
-    case 1:
-        system("cls");
-        B.createSavingAccount();
-        break;
-
-    case 2:
-        system("cls");
-        B.createCurrentAccount();
-        break;
-
-    default:
-        break;
-    }
+    
     return 0;
 }
