@@ -14,15 +14,13 @@ public:
     ~Ui(){
         // nothing to do with destructor now
     }
-
-    int loginSignUpOption();
-    int login();
-    int signUp();
+    void start();
+    void login();
     void userServices();
     void AdminServices();
-    int accountCreation();
-    int savingAccountServices();
-    int currentAccountServices();
+    void accountCreation();
+    void savingAccountServices();
+    void currentAccountServices();
 };
 
 #endif

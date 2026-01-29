@@ -1,7 +1,7 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
-
 #include <string>
+
 class Account{ // PARENT CLASS, CHILDS: = CurrentAccount, SavingAccount
     protected:
         int accountNumber;

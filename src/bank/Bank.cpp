@@ -2,7 +2,10 @@
 #include <string>
 #include <limits>
 #include <random>
+#include <cstdlib>
 #include "Bank.h"
+#include "SavingsAccount.h"
+#include "CurrentAccount.h"
 
 Bank::Bank(){
     // Nothing initializes this constructor to object
@@ -32,6 +35,65 @@ int Bank::generatePin(){
     return dist(gen);
 }
 
+// for finding the account
+Account* Bank::findAccount(int accNo){
+    if(accounts.empty()){
+        std::cout << "No Accounts Available\n";
+        return nullptr;
+    }
+    if(accounts.find(accNo) != accounts.end()){
+        return accounts[accNo];
+    }
+    std::cout << "Account Doesn't Exist\n";
+    return nullptr;
+
+}
+
+// for loging into the account
+bool Bank::login(int accNo, int pin){
+    auto it = findAccount(accNo); // calling find function
+    if(it == nullptr){
+        return false;
+    }
+    if(!it->authenticate(pin)){
+        return false;
+    }
+    currentAccount = it;
+    std::cout << "Login Successful\n";
+    return true;
+}
+
+// for withdrawing amount
+bool Bank::withdraw(){
+    if(!currentAccount){
+        std::cout << "Please Login First\n";
+        return false;
+    }
+
+    double amount;
+    std::cout <<"Withdraw Amount: ";
+    std::cin >> amount;
+    if(std::cin.fail()){
+        std::cout << "Invalid Amount\n";
+        return false;
+    }
+
+    currentAccount->withdraw(amount);
+    std::cout << amount << " Withdraw Successful\n";
+    return true;
+}
+
+
+// for logging out of the account
+void Bank::logout(){
+    if(currentAccount == nullptr){
+        std::cout << "No User Logged In\n";
+        return;
+    }
+
+    currentAccount = nullptr;
+    std::cout << "Logged Out Successfully\n";
+}
 
 // for creating saving account
 void Bank::createSavingAccount(){
@@ -58,10 +120,11 @@ void Bank::createSavingAccount(){
     }
 
     accounts[accNo] = new SavingsAccount(accNo, name, balance, pin);
+    system("cls"); // for clearing console screen
     std::cout << "Saving Account Created Successfully\n";
     std::cout << "Your Account Number: " << accNo << std::endl;
     std::cout << "Your Pin: " << pin << std::endl;
-    std::cout << "Note: Remember you Account Number and PIN Number.\n";
+    std::cout << "Note: Remember your Account Number and PIN Number.\n";
 }
 
 // for creating current account
@@ -92,18 +155,14 @@ void Bank::createCurrentAccount(){
     std::cout << "Current Account Created Successfully\n";
 }
 
-// for finding account
-Account* Bank::findAccount(int accNo){
-    if(accounts.empty()){
-        std::cout << "No Accounts Available\n";
-        return nullptr;
-    }
-    if(accounts.find(accNo) != accounts.end()){
-        return accounts[accNo];
-    }
-    std::cout << "Account Doesn't Exist\n";
-    return nullptr;
+// for showing balance of current user
+void Bank::showBalance(){
+ if (!currentAccount){
+    std::cout << "No user Logged in\n";
+    return;
+ }
 
+ std::cout << "Balance: " << currentAccount->getBalance() << std::endl;
 }
 
 // for deleting account
