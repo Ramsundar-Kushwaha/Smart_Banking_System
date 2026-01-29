@@ -15,7 +15,9 @@ public:
         // nothing to do with destructor now
     }
 
-    void loginOption();
+    int loginSignUpOption();
+    int login();
+    int signUp();
     void userServices();
     void AdminServices();
     int accountCreation();

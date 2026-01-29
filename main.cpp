@@ -4,18 +4,43 @@
 #include <ui.h>
 
 int main(){
-    // Bank B;
-    // B.createSavingAccount();
-    // B.showAllAccounts();
     Ui U;
     int choice;
-    choice = U.accountCreation();
-    if(choice == 1){
-        choice = U.savingAccountServices();
-    }else{
-        choice = U.currentAccountServices();
-    }
 
-    
+    // for signup and login option
+    choice = U.loginSignUpOption();
+    if(choice == 1){
+        int accountType = U.accountCreation();
+        switch(accountType){
+            case 1:
+                {
+                    int feature = U.savingAccountServices();
+                    break;
+                }
+            case 2:
+                {
+
+                    int feature = U.currentAccountServices();
+                    break;
+                }
+            default:
+                break;
+        }
+    }else if(choice == 2){
+        int accountType = U.login();
+        switch (accountType)
+        {
+        case 1:
+            std::cout << "Not Set Yet\n";
+            break;
+        case 2:
+            std::cout << "Not Set Yet\n";
+            break;
+        default:
+            break;
+        }
+    }else{
+        return -1;
+    }
     return 0;
 }
