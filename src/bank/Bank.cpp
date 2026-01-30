@@ -49,6 +49,14 @@ Account* Bank::findAccount(int accNo){
 
 }
 
+// current Account Details
+void Bank::curAccDetails(){
+    std::cout << "Holder Name: " << currentAccount->getHolderName() << std::endl;
+    std::cout << "Account Number: " << currentAccount->getAccountNumber() << std::endl;
+    std::cout << "Account PIN: " << currentAccount->getPin() << std::endl;
+    std::cout << "Balance: " << currentAccount->getBalance() << std::endl;
+}
+
 // for loging into the account
 bool Bank::login(int accNo, int pin){
     auto it = findAccount(accNo); // calling find function

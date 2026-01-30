@@ -195,7 +195,7 @@ void Ui::savingAccountServices(){
                 break;
     
             case 3:
-                std::cout << "This is Account Details\n";
+                B.curAccDetails();
                 pressEnterToContinue();
                 break;
     
@@ -244,7 +244,7 @@ void Ui::currentAccountServices(){
                 break;
     
             case 3:
-                std::cout << "This is Account Details\n";
+                B.curAccDetails();
                 pressEnterToContinue();
                 break;
     

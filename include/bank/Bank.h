@@ -16,6 +16,7 @@ class Bank{ // INDEPENDENT CLASS - CONTROLLER
         std::string currentUser;
     public:
         Bank();
+        void curAccDetails();
         bool login(int accNo, int pin);
         std::string curUser();
         bool withdraw();

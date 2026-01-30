@@ -35,6 +35,11 @@ class Account{ // PARENT CLASS, CHILDS: = CurrentAccount, SavingAccount
             return balance;
         }
 
+        // for PIN
+        int getPin()const{
+            return pin;
+        }
+
         // for authentication pin only, donot modify any value
         bool authenticate(int inputPin)const{
             return isActive && (pin == inputPin);
