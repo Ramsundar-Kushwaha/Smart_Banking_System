@@ -59,8 +59,14 @@ bool Bank::login(int accNo, int pin){
         return false;
     }
     currentAccount = it;
+    currentUser = it->getHolderName();
     std::cout << "Login Successful\n";
     return true;
+}
+
+// current user
+std::string Bank::curUser(){
+    return currentUser;
 }
 
 // for withdrawing amount
@@ -96,7 +102,7 @@ void Bank::logout(){
 }
 
 // for creating saving account
-void Bank::createSavingAccount(){
+bool Bank::createSavingAccount(){
     int accNo = generateAccountNumber();
     std::string name;
     double balance;
@@ -104,7 +110,7 @@ void Bank::createSavingAccount(){
 
     if(accounts.find(accNo) != accounts.end()){
         std::cout << "Account Already Exist\n";
-        return;
+        return false;
     }
 
     std::cout << "Enter Your Name: ";
@@ -115,8 +121,8 @@ void Bank::createSavingAccount(){
     std::cin >> balance;
 
     if(std::cin.fail() || balance < 500){
-        std::cout << "Invalid Amount\n";
-        return;
+        std::cout << "Invalid Amount | You Opening Amount Should > 500\n";
+        return false;
     }
 
     accounts[accNo] = new SavingsAccount(accNo, name, balance, pin);
@@ -125,18 +131,19 @@ void Bank::createSavingAccount(){
     std::cout << "Your Account Number: " << accNo << std::endl;
     std::cout << "Your Pin: " << pin << std::endl;
     std::cout << "Note: Remember your Account Number and PIN Number.\n";
+    return true;
 }
 
 // for creating current account
-void Bank::createCurrentAccount(){
-    int accNo = 1001;
+bool Bank::createCurrentAccount(){
+    int accNo = generateAccountNumber();
     std::string name;
     double balance;
-    int pin = 123;
+    int pin = generatePin();
 
     if(accounts.find(accNo) != accounts.end()){
         std::cout << "Account Already Exist\n";
-        return;
+        return false;
     }
 
     std::cout << "Enter Your Name: ";
@@ -147,12 +154,17 @@ void Bank::createCurrentAccount(){
     std::cin >> balance;
 
     if(std::cin.fail() || balance < 200){
-        std::cout << "Invalid Amount\n";
-        return;
+        std::cout << "Invalid Amount | Opening Amount Should > 200\n";
+        return false;
     }
 
     accounts[accNo] = new CurrentAccount(accNo, name, balance, pin);
+    system("cls"); // for clearing console screen
     std::cout << "Current Account Created Successfully\n";
+    std::cout << "Your Account Number: " << accNo << std::endl;
+    std::cout << "Your Pin: " << pin << std::endl;
+    std::cout << "Note: Remember your Account Number and PIN Number.\n";
+    return true;
 }
 
 // for showing balance of current user

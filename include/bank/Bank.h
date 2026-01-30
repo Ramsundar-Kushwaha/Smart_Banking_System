@@ -13,13 +13,15 @@ class Bank{ // INDEPENDENT CLASS - CONTROLLER
         Account* findAccount(int accNo);
         int generateAccountNumber();
         int generatePin();
+        std::string currentUser;
     public:
         Bank();
         bool login(int accNo, int pin);
+        std::string curUser();
         bool withdraw();
         void logout();
-        void createSavingAccount();
-        void createCurrentAccount();
+        bool createSavingAccount();
+        bool createCurrentAccount();
         void showBalance();
         void deleteAccount(int accNo);
         void deposit(int accNo, int pin, double amount);
