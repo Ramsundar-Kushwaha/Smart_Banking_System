@@ -1,7 +1,7 @@
 #include <iostream>
 #include <limits>
-#include <ui.h>
-#include <Bank.h>
+#include "ui.h"
+#include "Bank.h"
 
 
 Bank B; // bank object
@@ -9,7 +9,7 @@ Bank B; // bank object
 // login or signUp to banking app
 void Ui::start(){
     while(true){
-        system("cls");
+        system("clear");
         std::cout << "+----------+----------+---------+\n";
         std::cout << "|1. signUp | 2. Login | 3. Exit |\n";
         std::cout << "+----------+----------+---------+\n";
@@ -36,6 +36,12 @@ void Ui::start(){
             case 3:
                 std::cout << "Good Bye...\n";
                 return;
+
+            case 4:
+                B.showAllAccounts();
+                pressEnterToContinue();
+                break;
+                
             default:
                 std::cout << "Option Out Of Range | Try Again\n";
                 pressEnterToContinue();
@@ -47,7 +53,7 @@ void Ui::start(){
 // Saving and Current Account Creation
 void Ui::accountCreation(){
     while(true){
-        system("cls");
+        system("clear");
         std::cout << "                       SignUp To                       \n\n";
         std::cout << "+--------------------------+---------------------------+---------+\n";
         std::cout << "| 1. Create Saving Account | 2. Create Current Account | 3. Back |\n";
@@ -95,7 +101,7 @@ void Ui::accountCreation(){
 // login to account
 void Ui::login(){
     while(true){
-        system("cls");
+        system("clear");
         std::cout << "                 Login To                 \n\n";
         std::cout << "+-------------------+--------------------+--------+\n";
         std::cout << "| 1. Saving Account | 2. Current Account |3. Back |\n";
@@ -162,7 +168,7 @@ void Ui::login(){
 // Saving Account's Services
 void Ui::savingAccountServices(){
     while(true){
-        system("cls");
+        system("clear");
         std::cout << "Welcom Mr./Mrs. " << B.curUser() << std::endl << std::endl;
         std::cout << "+------------------+-------------+\n";
         std::cout << "| 1. Balance Query | 2. Withdraw |\n";
@@ -213,7 +219,7 @@ void Ui::savingAccountServices(){
 // Current Account's Services
 void Ui::currentAccountServices(){
     while(true){
-        system("cls");
+        system("clear");
         std::cout << "Welcom Mr./Mrs. " << B.curUser() << std::endl << std::endl;
         std::cout << "+------------------+-------------+\n";
         std::cout << "| 1. Balance Query | 2. Withdraw |\n";
@@ -261,7 +267,7 @@ void Ui::currentAccountServices(){
 
 // press enter to continue
 void Ui::pressEnterToContinue(){
-    std::cout << "Press Enter To Continue...";
+    std::cout << "Press Enter...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get();
 }

@@ -54,7 +54,6 @@ void Bank::curAccDetails(){
     std::cout << "Holder Name: " << currentAccount->getHolderName() << std::endl;
     std::cout << "Account Number: " << currentAccount->getAccountNumber() << std::endl;
     std::cout << "Account PIN: " << currentAccount->getPin() << std::endl;
-    std::cout << "Balance: " << currentAccount->getBalance() << std::endl;
 }
 
 // for loging into the account
@@ -85,11 +84,45 @@ bool Bank::withdraw(){
     }
 
     double amount;
-    std::cout <<"Withdraw Amount: ";
-    std::cin >> amount;
-    if(std::cin.fail()){
-        std::cout << "Invalid Amount\n";
-        return false;
+    while(true){ // take input until correct amount entered
+        std::cout <<"Withdraw Amount: ";
+        std::cin >> amount;
+    
+        // checks for valid amount input
+        if(std::cin.fail()){
+            std::cout << "Invalid Amount | Please Try Again\n";
+            continue;
+        }
+        break;
+    }
+
+    int pin;
+    int chance = 3;
+    while(true && chance > 0){ // take input until correct pin number entered and max upto 3 times
+        std::cout << "PIN: ";
+        std::cin >> pin;
+    
+        // checks for valid PIN input
+        if(std::cin.fail()){
+            chance--;
+            std::cout << chance << " more chance left outof 3\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            std::cout << "Invalid PIN | Only Numeric Value Allowed\n";
+            std::cout << "Please Try Again\n";
+            continue;
+        }
+
+        // checks whether the PIN matched or not
+        if(!currentAccount->authenticate(pin)){
+            chance--;
+            std::cout << chance << " more chance left outof 3\n";
+            std::cout << "PIN NOT MATCHED\n";
+            continue;
+            
+        }
+
+        break;
     }
 
     currentAccount->withdraw(amount);
@@ -118,6 +151,7 @@ bool Bank::createSavingAccount(){
 
     if(accounts.find(accNo) != accounts.end()){
         std::cout << "Account Already Exist\n";
+        std::cout << "Contact Nearest Branch\n";
         return false;
     }
 
@@ -134,7 +168,7 @@ bool Bank::createSavingAccount(){
     }
 
     accounts[accNo] = new SavingsAccount(accNo, name, balance, pin);
-    system("cls"); // for clearing console screen
+    system("clear"); // for clearing console screen
     std::cout << "Saving Account Created Successfully\n";
     std::cout << "Your Account Number: " << accNo << std::endl;
     std::cout << "Your Pin: " << pin << std::endl;
@@ -151,6 +185,7 @@ bool Bank::createCurrentAccount(){
 
     if(accounts.find(accNo) != accounts.end()){
         std::cout << "Account Already Exist\n";
+        std::cout << "Contact Nearest Branch\n";
         return false;
     }
 
@@ -167,7 +202,7 @@ bool Bank::createCurrentAccount(){
     }
 
     accounts[accNo] = new CurrentAccount(accNo, name, balance, pin);
-    system("cls"); // for clearing console screen
+    system("clear"); // for clearing console screen
     std::cout << "Current Account Created Successfully\n";
     std::cout << "Your Account Number: " << accNo << std::endl;
     std::cout << "Your Pin: " << pin << std::endl;
@@ -235,7 +270,7 @@ void Bank::showAllAccounts()const{
     }
 
     for(const auto& pair : accounts){
-        std::cout << "------------------------\n";
+        std::cout << "--------------------------------------\n";
         pair.second->display(); // polymorphism happens here
     }
 }

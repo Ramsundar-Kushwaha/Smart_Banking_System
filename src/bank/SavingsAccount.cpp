@@ -8,10 +8,11 @@ SavingsAccount::~SavingsAccount(){
 bool SavingsAccount::withdraw(double amount){
     if (! isActive){
         std::cout << "The Account is Deactivated\n";
+        std::cout << "Please Contact Your Nearest Branch\n";
         return false;
     }
     else if (amount <= 0 || amount > 10000){ // restricted amount maximum up to 10,000
-        std::cout << "Invalid Amount | Must Be > 0 and <= 10,000\n";
+        std::cout << "Invalid Amount | 0 < amount <= 10,000\n";
         return false;
     }
     else if (balance == 0 || amount > balance){
