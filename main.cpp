@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ui/ui.h"
+#include "include/ui/ui.h"
 
 int main(){
     Ui U;
