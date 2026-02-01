@@ -1,7 +1,5 @@
 #include <iostream>
-#include <cstdlib> // for system("cls")
-// #include "Account.h"
-#include "ui.h"
+#include "ui/ui.h"
 
 int main(){
     Ui U;
