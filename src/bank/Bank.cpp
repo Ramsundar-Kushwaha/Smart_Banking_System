@@ -4,6 +4,7 @@
 #include <random>
 #include <cstdlib>
 #include "Bank.h"
+#include "Admin.h"
 #include "SavingsAccount.h"
 #include "CurrentAccount.h"
 
@@ -72,7 +73,7 @@ bool Bank::login(int accNo, int pin){
 }
 
 // current user
-std::string Bank::curUser(){
+std::string Bank::curUser()const{
     return currentUser;
 }
 
@@ -129,7 +130,6 @@ bool Bank::withdraw(){
     std::cout << amount << " Withdraw Successful\n";
     return true;
 }
-
 
 // for logging out of the account
 void Bank::logout(){
@@ -210,8 +210,29 @@ bool Bank::createCurrentAccount(){
     return true;
 }
 
+
+// for login as admin
+bool Bank::adminLogin()const{
+    std::string username;
+    std::string password;
+
+    std::cout << "Username: ";
+    std::cin >> username;
+
+    std::cout << "Password: ";
+    std::cin >> password;
+
+    Admin A;
+    if(A.login(username, password)){
+        std::cout << "Welcome Admin\n";
+        return true;
+    }
+    std::cout << "Wrong Username or Password\n";
+    return false;
+}
+
 // for showing balance of current user
-void Bank::showBalance(){
+void Bank::showBalance()const{
  if (!currentAccount){
     std::cout << "No user Logged in\n";
     return;
@@ -221,17 +242,18 @@ void Bank::showBalance(){
 }
 
 // for deleting account
-void Bank::deleteAccount(int accNo){
+bool Bank::deleteAccount(int accNo){
     auto it = accounts.find(accNo);
 
     if(it == accounts.end()){
         std::cout << "Account Doesn't Exist\n";
-        return;
+        return false;
     }
 
     delete it->second; // freed the object, created using new keyword
     accounts.erase(it); // accNo and the pointer it completely erased
     std::cout << "Account Deleted Successfully\n";
+    return true;
 }
 
 // for deposit
@@ -258,21 +280,28 @@ void Bank::transfer(int fromAcc, int toAcc, double amount){
 }
 
 // for freezing account
-void Bank::freezeAccount(int accNo){
-    // i will do it later
+bool Bank::freezeAccount(int accNo){
+    auto it = findAccount(accNo);
+    if(!it){
+        return false;
+    }
+    it->deactivate();
+    std::cout << "Account: " << accNo << " Frozen Successfuly\n";
+    return true;
 }
 
 // for showing account
-void Bank::showAllAccounts()const{
+bool Bank::showAllAccounts()const{
     if(accounts.empty()){
         std::cout << "No Acounts Available\n";
-        return;
+        return false;
     }
 
     for(const auto& pair : accounts){
-        std::cout << "--------------------------------------\n";
+        std::cout << "------------------------------------------\n";
         pair.second->display(); // polymorphism happens here
     }
+    return true;
 }
 
 void Bank::loadAccounts(){

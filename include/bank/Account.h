@@ -64,7 +64,7 @@ class Account{ // PARENT CLASS, CHILDS: = CurrentAccount, SavingAccount
         void deactivate(){
             isActive = false;
         }
-
+    
         virtual void display()const = 0; // pure virtual function, for displaying account details, donot modify any value
         virtual ~Account(); // destructor
 };

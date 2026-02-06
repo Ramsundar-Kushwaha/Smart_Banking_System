@@ -7,7 +7,7 @@
 Bank B; // bank object
 
 // login or signUp to banking app
-void Ui::start(){
+void Ui::userServices(){
     while(true){
         system("clear");
         std::cout << "+----------+----------+---------+\n";
@@ -20,7 +20,7 @@ void Ui::start(){
     
         if(std::cin.fail()){ // checks for valid input
             std::cin.clear(); // clear the error flag
-            std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // removes error from buffer completely upto 1000 character until '\n'
             std::cout << "Invalide Option | Try Again\n";
             pressEnterToContinue();
             continue;
@@ -75,6 +75,7 @@ void Ui::accountCreation(){
         {
         case 1:
             if(B.createSavingAccount()){
+                std::cout << "Account Successfuly Created\n";
                 pressEnterToContinue();
                 login();
             }
@@ -82,6 +83,7 @@ void Ui::accountCreation(){
         
         case 2:
             if(B.createCurrentAccount()){
+                std::cout << "Account Successfuly Created\n";
                 pressEnterToContinue();
                 login();
             }
@@ -148,6 +150,7 @@ void Ui::login(){
                 }
                 
                 if(B.login(accNo, pin)){ // if account found
+                    std::cout << "Login Successful\n";
                     pressEnterToContinue();
                     savingAccountServices();
                 }
@@ -270,4 +273,154 @@ void Ui::pressEnterToContinue(){
     std::cout << "Press Enter...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get();
+}
+
+// Admin Pannel
+void Ui::adminLogin(){
+    while(true){
+        system("clear");
+        std::cout << "+----------------+-------------+\n";
+        std::cout << "| 1. Login Admin |   3. Back   |\n";
+        std::cout << "+----------------+-------------+\n";
+    
+        int choice;
+        std::cout << "> ";
+        std::cin >> choice;
+    
+        if(std::cin.fail()){
+            std::cin.clear(); // clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid Option | Try Again\n";
+            pressEnterToContinue();
+            continue;
+        }
+
+        switch(choice){
+            case 1:
+                if(B.adminLogin()){
+                    pressEnterToContinue();
+                    adminServices();
+                }
+                break;
+            case 2:
+                return;
+            default:
+                std::cout << "Option Out Of Range | Try Again";
+                break;
+        }
+    }
+    
+}
+
+// admin services or admin features
+void Ui::adminServices(){
+    while(true){
+        system("clear");
+        std::cout << "+-------------------------+\n";
+        std::cout << "| 1. SHOW ALL ACCOUNTS    |\n";
+        std::cout << "| 2. FREEZE ACCOUNT       |\n";
+        std::cout << "| 3. DELETE ACCOUNT       |\n";
+        std::cout << "| 4. LOGOUT               |\n";
+        std::cout << "+-------------------------+\n";
+
+        int choice;
+        std::cout << "> ";
+        std::cin >> choice;
+
+        if(std::cin.fail()){
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid Option | Try Again\n";
+            continue;
+        }
+
+        switch(choice){
+            case 1: // for showing all accounts
+                if(B.showAllAccounts()){
+                    pressEnterToContinue();
+                }
+                break;
+
+            case 2: // for freezing an account
+                {
+                    int accNo;
+                    std::cout << "Account No: ";
+                    std::cin >> accNo;
+    
+                    if(std::cin.fail()){
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::cout << "Invalid Account Number | Try Again\n";
+                        continue;
+                    }
+    
+                    if(B.freezeAccount(accNo)){
+                        pressEnterToContinue();
+                    }
+                }
+                break;
+            
+            case 3: // for deleting an account
+                int accNo;
+                std::cout << "Account No: ";
+                std::cin >> accNo;
+
+                if(std::cin.fail()){
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Invalid Account Number | Try Again\n";
+                    continue;
+                }
+
+                if(B.deleteAccount(accNo)){
+                    pressEnterToContinue();
+                }
+                break;
+            
+            case 4: // for logging out of admin page
+                system("clear");
+                std::cout << "Loged Out\n";
+                pressEnterToContinue();
+                return;
+
+            default:
+                std::cout << "Option Out Of Range | Try Again\n";
+                pressEnterToContinue();
+                break;
+        }
+    }
+}
+
+// starting of ui
+void Ui::start(){
+    while(true){
+        std::cout << "Continue As: \n\n";
+        std::cout << "+---------+----------+\n";
+        std::cout << "| 1. User | 2. Admin |\n";
+        std::cout << "+---------+----------+\n";
+    
+        int choice;
+        std::cout << "> ";
+        std::cin >> choice;
+    
+        if(std::cin.fail()){
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid Input | Try Again\n";
+            continue;
+        }
+
+        switch(choice){
+            case 1:
+                userServices();
+                break;
+
+            case 2:
+                adminLogin();
+                break;
+
+            default:
+                return;
+        }
+    }
 }

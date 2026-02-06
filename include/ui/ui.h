@@ -17,7 +17,8 @@ public:
     void start();
     void login();
     void userServices();
-    void AdminServices();
+    void adminLogin();
+    void adminServices();
     void accountCreation();
     void savingAccountServices();
     void currentAccountServices();
