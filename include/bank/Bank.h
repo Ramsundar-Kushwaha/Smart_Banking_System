@@ -23,7 +23,7 @@ class Bank{ // INDEPENDENT CLASS - CONTROLLER
         void logout();
         bool createSavingAccount();
         bool createCurrentAccount();
-        bool adminLogin()const;
+        bool adminLogin(std::string username, std::string password)const;
         void showBalance() const;
         bool deleteAccount(int accNo);
         void deposit(int accNo, int pin, double amount);

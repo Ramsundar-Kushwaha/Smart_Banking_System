@@ -2,7 +2,7 @@
 #include "CurrentAccount.h"
 
 CurrentAccount::~CurrentAccount(){
-    std::cout << "child class memory freed succefully\n";
+    std::cout << "child class, current acc. destructor\n";
 }
 
 
@@ -55,8 +55,8 @@ void CurrentAccount::applyInterest(){
 
 // display account details
 void CurrentAccount::display()const{
-    std::cout << "Account Number: " << accountNumber << std::endl;
     std::cout << "Account Holder: " << holderName << std::endl;
+    std::cout << "Account Number: " << accountNumber << std::endl;
     std::cout << "Balance: " << balance << std::endl;
     std::cout << "Overdraft Limit: " << overdraftLimit << std::endl;
 }

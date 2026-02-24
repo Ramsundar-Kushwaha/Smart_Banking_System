@@ -2,7 +2,7 @@
 #include "SavingsAccount.h"
 
 SavingsAccount::~SavingsAccount(){
-    std::cout << "child class Memory Freed Successfully\n";
+    std::cout << "child class, saving acc. destructor\n";
 }
 
 bool SavingsAccount::withdraw(double amount){
@@ -35,7 +35,7 @@ void SavingsAccount::applyInterest(){
 
 // displays the details of account
 void SavingsAccount::display()const{
-    std::cout << "Account Number: " << accountNumber << std::endl;
     std::cout << "Account Holder: " << holderName << std::endl;
+    std::cout << "Account Number: " << accountNumber << std::endl;
     std::cout << "Balance: " << balance << std::endl;
 }

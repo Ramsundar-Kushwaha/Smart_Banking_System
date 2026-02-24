@@ -6,108 +6,80 @@
 
 Bank B; // bank object
 
-// login or signUp to banking app
-void Ui::userServices(){
+// starting of ui
+void Ui::start(){
     while(true){
         system("clear");
-        std::cout << "+----------+----------+---------+\n";
-        std::cout << "|1. signUp | 2. Login | 3. Exit |\n";
-        std::cout << "+----------+----------+---------+\n";
+        std::cout << "   Smart banking System   \n\n";
+        std::cout << "+------------------------+\n";
+        std::cout << "| 1. Login               |\n";
+        std::cout << "+------------------------+\n";
+        std::cout << "| 2. SignUp              |\n";
+        std::cout << "+------------------------+\n";
+        std::cout << "| 3. Admin Login         |\n";
+        std::cout << "+------------------------+\n";
+        std::cout << "| 4. Exit                |\n";
+        std::cout << "+------------------------+\n";
     
-        int choice; // for getting choice
-        std::cout << "> ";
-        std::cin >> choice;
-    
-        if(std::cin.fail()){ // checks for valid input
-            std::cin.clear(); // clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // removes error from buffer completely upto 1000 character until '\n'
-            std::cout << "Invalide Option | Try Again\n";
-            pressEnterToContinue();
-            continue;
-        }
-    
-        switch(choice){
-            case 1:
-                accountCreation();
-                break;
-            case 2:
-                login();
-                break;
-            case 3:
-                std::cout << "Good Bye...\n";
-                return;
-
-            case 4:
-                B.showAllAccounts();
-                pressEnterToContinue();
-                break;
-                
-            default:
-                std::cout << "Option Out Of Range | Try Again\n";
-                pressEnterToContinue();
-                break;
-        }
-    }
-}
-
-// Saving and Current Account Creation
-void Ui::accountCreation(){
-    while(true){
-        system("clear");
-        std::cout << "                       SignUp To                       \n\n";
-        std::cout << "+--------------------------+---------------------------+---------+\n";
-        std::cout << "| 1. Create Saving Account | 2. Create Current Account | 3. Back |\n";
-        std::cout << "+--------------------------+---------------------------+---------+\n";
-        
         int choice;
         std::cout << "> ";
         std::cin >> choice;
-
-        if(std::cin.fail()){ // checks for invalid input
-            std::cin.clear(); // clear the error flag
-            std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
-            std::cout << "Invalid Input | Please Try Again\n";
-            pressEnterToContinue();
+    
+        if(std::cin.fail()){
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid Input | Try Again\n";
             continue;
         }
-        
-        switch (choice)
-        {
-        case 1:
-            if(B.createSavingAccount()){
-                std::cout << "Account Successfuly Created\n";
-                pressEnterToContinue();
-                login();
-            }
-            break;
-        
-        case 2:
-            if(B.createCurrentAccount()){
-                std::cout << "Account Successfuly Created\n";
-                pressEnterToContinue();
-                login();
-            }
-            break;
 
-        case 3:
-            return;
+        switch(choice){
+            case 1:
+                login();
+                break;
+            
+            case 2:
+                accountCreation();
+                break;
 
-        default:
-            std::cout << "Option Out Of Range | Try Again\n";
-            pressEnterToContinue();
-            break;
+            case 3:
+            {
+                std::string username;
+                std::string password;
+
+                std::cout << "Username: ";
+                std::cin >> username;
+
+                std::cout << "Password: ";
+                std::cin >> password;
+
+                if(B.adminLogin(username, password)){
+                    pressEnterToContinue();
+                    adminServices();
+                }
+                break;
+            }
+
+            case 4:
+                return;
+
+            default:
+                return;
         }
     }
 }
-
+    
 // login to account
 void Ui::login(){
     while(true){
         system("clear");
-        std::cout << "                 Login To                 \n\n";
-        std::cout << "+-------------------+--------------------+--------+\n";
-        std::cout << "| 1. Saving Account | 2. Current Account |3. Back |\n";
-        std::cout << "+-------------------+--------------------+--------+\n";
+        std::cout << "     Login To      \n\n";
+        std::cout << "+--------------------+\n";
+        std::cout << "| 1. Saving Account  |\n";
+        std::cout << "+--------------------+\n";
+        std::cout << "| 2. Current Account |\n";
+        std::cout << "+--------------------+\n";
+        std::cout << "| 3. Back            |\n";
+        std::cout << "+--------------------+\n";
     
         int choice;
         std::cout << "> ";
@@ -115,8 +87,7 @@ void Ui::login(){
 
         if(std::cin.fail()){ // checks for invalid input
             std::cin.clear(); // clear the error flag
-            std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
-            std::cin.ignore(); // removes the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid Option | Try Again\n";
             pressEnterToContinue();
             continue;
@@ -132,7 +103,7 @@ void Ui::login(){
 
                 if(std::cin.fail()){ // checks for invalid input
                     std::cin.clear(); // clear the error flag
-                    std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::cout << "Invalid Account | Try Again Later\n";
                     pressEnterToContinue();
                     return;
@@ -143,21 +114,21 @@ void Ui::login(){
 
                 if(std::cin.fail()){ // checks for invalid input
                     std::cin.clear(); // clear the error flag
-                    std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     std::cout << "Invalid PIN | Try Again Later\n";
                     pressEnterToContinue();
                     return;
                 }
                 
                 if(B.login(accNo, pin)){ // if account found
-                    std::cout << "Login Successful\n";
-                    pressEnterToContinue();
+                    system("clear");
                     savingAccountServices();
                 }
-
+                pressEnterToContinue();
                 break;
             
             case 3:
+                system("clear");
                 return;
 
             default:
@@ -168,11 +139,68 @@ void Ui::login(){
     }
 }
 
+// Saving and Current Account Creation (signUp)
+void Ui::accountCreation(){
+    while(true){
+        system("clear");
+        std::cout << "       SignUp To     \n\n";
+        std::cout << "+-------------------+\n";
+        std::cout << "| 1. Saving Account |\n";
+        std::cout << "+-------------------+\n";
+        std::cout << "| 2. Current Account|\n";
+        std::cout << "+-------------------+\n";
+        std::cout << "| 3. Back           |\n";
+        std::cout << "+-------------------+\n";
+        
+        int choice;
+        std::cout << "> ";
+        std::cin >> choice;
+
+        if(std::cin.fail()){ // checks for invalid input
+            std::cin.clear(); // clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid Input | Please Try Again\n";
+            pressEnterToContinue();
+            continue;
+        }
+        
+        switch (choice)
+        {
+        case 1:
+            if(B.createSavingAccount()){
+                pressEnterToContinue();
+                system("clear");
+                return;
+            }
+            pressEnterToContinue();
+            break;
+        
+        case 2:
+            if(B.createCurrentAccount()){
+                pressEnterToContinue();
+                return;
+            }
+            pressEnterToContinue();
+            break;
+
+        case 3:
+            system("clear");
+            return;
+
+        default:
+            std::cout << "Option Out Of Range | Try Again\n";
+            pressEnterToContinue();
+            break;
+        }
+    }
+}
+
+
 // Saving Account's Services
 void Ui::savingAccountServices(){
     while(true){
         system("clear");
-        std::cout << "Welcom Mr./Mrs. " << B.curUser() << std::endl << std::endl;
+        std::cout << "     Welcom Mr./Mrs. " << B.curUser() << std::endl;
         std::cout << "+------------------+-------------+\n";
         std::cout << "| 1. Balance Query | 2. Withdraw |\n";
         std::cout << "+------------------+-------------+\n";
@@ -186,7 +214,7 @@ void Ui::savingAccountServices(){
     
         if(std::cin.fail()){ // checks for invalid input
             std::cin.clear(); // clear the error flag
-            std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid Choice | Try Again\n";
             pressEnterToContinue();
             break;
@@ -209,8 +237,8 @@ void Ui::savingAccountServices(){
                 break;
     
             case 4:
+                system("clear");
                 B.logout();
-                pressEnterToContinue();
                 return;
     
             default:
@@ -223,7 +251,7 @@ void Ui::savingAccountServices(){
 void Ui::currentAccountServices(){
     while(true){
         system("clear");
-        std::cout << "Welcom Mr./Mrs. " << B.curUser() << std::endl << std::endl;
+        std::cout << "     Welcom Mr./Mrs. " << B.curUser() << std::endl << std::endl;
         std::cout << "+------------------+-------------+\n";
         std::cout << "| 1. Balance Query | 2. Withdraw |\n";
         std::cout << "+------------------+-------------+\n";
@@ -236,7 +264,7 @@ void Ui::currentAccountServices(){
     
         if(std::cin.fail()){ // checks for invalid input
             std::cin.clear(); // clear the error flag
-            std::cin.ignore(1000, '\n'); // removes error from buffer completely upto 1000 character until '\n'
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid Choice | Try Again\n";
             pressEnterToContinue();
             continue;
@@ -268,103 +296,60 @@ void Ui::currentAccountServices(){
     }
 }
 
-// press enter to continue
-void Ui::pressEnterToContinue(){
-    std::cout << "Press Enter...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
-}
-
-// Admin Pannel
-void Ui::adminLogin(){
-    while(true){
-        system("clear");
-        std::cout << "+----------------+-------------+\n";
-        std::cout << "| 1. Login Admin |   3. Back   |\n";
-        std::cout << "+----------------+-------------+\n";
-    
-        int choice;
-        std::cout << "> ";
-        std::cin >> choice;
-    
-        if(std::cin.fail()){
-            std::cin.clear(); // clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid Option | Try Again\n";
-            pressEnterToContinue();
-            continue;
-        }
-
-        switch(choice){
-            case 1:
-                if(B.adminLogin()){
-                    pressEnterToContinue();
-                    adminServices();
-                }
-                break;
-            case 2:
-                return;
-            default:
-                std::cout << "Option Out Of Range | Try Again";
-                break;
-        }
-    }
-    
-}
-
 // admin services or admin features
 void Ui::adminServices(){
     while(true){
         system("clear");
+        std::cout << "Welcome Admin Mr. " << std::endl;
         std::cout << "+-------------------------+\n";
         std::cout << "| 1. SHOW ALL ACCOUNTS    |\n";
         std::cout << "| 2. FREEZE ACCOUNT       |\n";
         std::cout << "| 3. DELETE ACCOUNT       |\n";
         std::cout << "| 4. LOGOUT               |\n";
         std::cout << "+-------------------------+\n";
-
+        
         int choice;
         std::cout << "> ";
         std::cin >> choice;
-
+        
         if(std::cin.fail()){
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid Option | Try Again\n";
             continue;
         }
-
+        
         switch(choice){
             case 1: // for showing all accounts
-                if(B.showAllAccounts()){
-                    pressEnterToContinue();
+            if(B.showAllAccounts()){
+                pressEnterToContinue();
                 }
                 break;
-
+                
             case 2: // for freezing an account
-                {
-                    int accNo;
+            {
+                int accNo;
                     std::cout << "Account No: ";
                     std::cin >> accNo;
-    
+                    
                     if(std::cin.fail()){
                         std::cin.clear();
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         std::cout << "Invalid Account Number | Try Again\n";
                         continue;
                     }
-    
+                    
                     if(B.freezeAccount(accNo)){
                         pressEnterToContinue();
                     }
                 }
                 break;
-            
-            case 3: // for deleting an account
+                
+                case 3: // for deleting an account
                 int accNo;
                 std::cout << "Account No: ";
                 std::cin >> accNo;
-
+                
                 if(std::cin.fail()){
                     std::cin.clear();
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -376,51 +361,24 @@ void Ui::adminServices(){
                     pressEnterToContinue();
                 }
                 break;
-            
-            case 4: // for logging out of admin page
+                
+                case 4: // for logging out of admin page
                 system("clear");
                 std::cout << "Loged Out\n";
                 pressEnterToContinue();
                 return;
-
-            default:
+                
+                default:
                 std::cout << "Option Out Of Range | Try Again\n";
                 pressEnterToContinue();
                 break;
+            }
         }
     }
-}
 
-// starting of ui
-void Ui::start(){
-    while(true){
-        std::cout << "Continue As: \n\n";
-        std::cout << "+---------+----------+\n";
-        std::cout << "| 1. User | 2. Admin |\n";
-        std::cout << "+---------+----------+\n";
-    
-        int choice;
-        std::cout << "> ";
-        std::cin >> choice;
-    
-        if(std::cin.fail()){
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid Input | Try Again\n";
-            continue;
-        }
-
-        switch(choice){
-            case 1:
-                userServices();
-                break;
-
-            case 2:
-                adminLogin();
-                break;
-
-            default:
-                return;
-        }
+// press enter to continue
+void Ui::pressEnterToContinue(){
+        std::cout << "Press Enter...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.get();
     }
-}

@@ -52,9 +52,7 @@ Account* Bank::findAccount(int accNo){
 
 // current Account Details
 void Bank::curAccDetails(){
-    std::cout << "Holder Name: " << currentAccount->getHolderName() << std::endl;
-    std::cout << "Account Number: " << currentAccount->getAccountNumber() << std::endl;
-    std::cout << "Account PIN: " << currentAccount->getPin() << std::endl;
+    currentAccount->display();
 }
 
 // for loging into the account
@@ -127,7 +125,6 @@ bool Bank::withdraw(){
     }
 
     currentAccount->withdraw(amount);
-    std::cout << amount << " Withdraw Successful\n";
     return true;
 }
 
@@ -210,21 +207,10 @@ bool Bank::createCurrentAccount(){
     return true;
 }
 
-
 // for login as admin
-bool Bank::adminLogin()const{
-    std::string username;
-    std::string password;
-
-    std::cout << "Username: ";
-    std::cin >> username;
-
-    std::cout << "Password: ";
-    std::cin >> password;
-
+bool Bank::adminLogin(std::string username, std::string password)const{
     Admin A;
     if(A.login(username, password)){
-        std::cout << "Welcome Admin\n";
         return true;
     }
     std::cout << "Wrong Username or Password\n";
